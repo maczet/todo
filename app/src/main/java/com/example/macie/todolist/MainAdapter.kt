@@ -37,7 +37,7 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
-        val numberString = data.get(position).id.toString() + "."
+        val numberString = (position + 1).toString() + "."
         holder?.view?.textViewNumber?.text = numberString
         holder?.view?.textViewToDo?.text = data.get(position).toDo
 

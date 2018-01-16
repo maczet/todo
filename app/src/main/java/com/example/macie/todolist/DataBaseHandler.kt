@@ -49,10 +49,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         cv.put(colDone, toDoList.done)
         var result = db.insert(dbTable, null, cv)
         if (result == -1.toLong()) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Failed add new todo", Toast.LENGTH_SHORT).show()
         }
         else
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Success add new todo", Toast.LENGTH_SHORT).show()
         success = true
     }
 
@@ -105,15 +105,17 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         return toDoList
     }
 
+//    TO CHUJSTWO MI NIE DZIAŁA DO POPRAWY
     fun updateDone(id: Int, done: Boolean){
         println("przed update")
         println(readOneObjectToDO(id).done)
 
         val values = ContentValues()
-        values.put(colDone, done)
+        values.put(colToDo, "test test test")
+        values.put(colDone, true)
         val db = this.writableDatabase
 
-        val retVal =  db.update(dbTable, values, colId + " = " + 0, null)
+        val retVal =  db.update(dbTable, values, colId + " = " + id, null)
 
         if (retVal >= 1) {
             Log.v("Update done", " Record updated")
@@ -141,11 +143,31 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
     }
 
 
-    fun deleteData(){
+    fun updateToDo(id: Int, todo: String){
+
+        val values = ContentValues()
+        values.put(colToDo, todo)
+
         val db = this.writableDatabase
+        val retVal =  db.update(dbTable, values, colId + " = " + id, null)
 
-        db.delete(dbTable, colId+"=?", arrayOf(1.toString()))
+        if (retVal >= 1) {
+            Toast.makeText(context, "Record was updated", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Record wasn't updated", Toast.LENGTH_SHORT).show()
+        }
+        db.close()
+    }
 
+
+    fun deleteToDO(id: Int){
+        val db = this.writableDatabase
+        val retVal = db.delete(dbTable, colId + " = " + id.toString(), null)
+        if (retVal >= 1) {
+            Toast.makeText(context, "Record deleted", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Record not deleted", Toast.LENGTH_SHORT).show()
+        }
         db.close()
     }
 

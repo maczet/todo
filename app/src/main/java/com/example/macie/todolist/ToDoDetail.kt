@@ -1,13 +1,10 @@
 package com.example.macie.todolist
 
-import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.WindowId
 import kotlinx.android.synthetic.main.activity_to_do_element.*
-import kotlinx.android.synthetic.main.main_row.*
 
 class ToDoDetail : AppCompatActivity() {
 
@@ -27,12 +24,23 @@ class ToDoDetail : AppCompatActivity() {
         checkBoxToDoDetail.isChecked = data.done
         textViewTitleToDoDetail.text = data.toDo
 
-
         checkBoxToDoDetail.setOnClickListener {
-            var check = checkBoxToDoDetail.isChecked
             db.updateDone(ToDoId, checkBoxToDoDetail.isChecked)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
-            updateContext(this, ToDoId)
+        buttonDelete.setOnClickListener {
+            val db = DataBaseHandler(this)
+            db.deleteToDO(ToDoId)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonEdit.setOnClickListener {
+            val intent = Intent(this, EditToDoElement::class.java)
+            intent.putExtra("ID", ToDoId)
+            startActivity(intent)
         }
     }
 
@@ -41,4 +49,5 @@ class ToDoDetail : AppCompatActivity() {
         val data = db.readOneObjectToDO(ToDoId)
         checkBoxToDoDetail.isChecked = data.done
     }
+
 }

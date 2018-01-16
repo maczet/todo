@@ -4,4 +4,8 @@
     <string name="add_element">ADD</string>
     <string name="ToDoTitle">Add new TODO element</string>
     <string name="ToDoElementCheckbox">Done</string>
+    <string name="Delete">Delete</string>
+    <string name="Edit">Edit</string>
+    <string name="OK">OK</string>
+    <string name="EditToDoElement">Edit TODO element</string>
 </resources>
