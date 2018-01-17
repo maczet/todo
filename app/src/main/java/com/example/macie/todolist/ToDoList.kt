@@ -9,7 +9,7 @@ class ToDoList{
     var id : Int = 0
     var toDo : String = ""
     var done : Int = 0
-    var priority: String = "Normal"
+    var priority: String = ""
 
     constructor(toDo: String, done: Int, priority: String){
         this.toDo = toDo

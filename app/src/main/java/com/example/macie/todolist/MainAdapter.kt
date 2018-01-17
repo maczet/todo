@@ -49,6 +49,7 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
         holder?.view?.textViewToDo?.text = data[position].toDo
         holder?.view?.checkBoxDone?.isChecked = toBoolean(data[position].done)
         holder?.todo = data[position]
+        holder?.view?.textViewPriority?.text = data[position].priority
 
         holder?.view?.checkBoxDone?.setOnClickListener {
             db.updateDone(data[position].id, holder?.view?.checkBoxDone?.isChecked!!.toInt())
