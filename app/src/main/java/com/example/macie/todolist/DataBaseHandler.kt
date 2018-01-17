@@ -27,9 +27,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
     var success: Boolean = false
 
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-
-    }
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) { }
 
     override fun onCreate(db: SQLiteDatabase?) {
 
@@ -48,11 +46,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         cv.put(colToDo, toDoList.toDo)
         cv.put(colDone, toDoList.done)
         var result = db.insert(dbTable, null, cv)
-        if (result == -1.toLong()) {
+        if (result == -1.toLong())
             Toast.makeText(context, "Failed add new todo", Toast.LENGTH_SHORT).show()
-        }
+
         else
             Toast.makeText(context, "Success add new todo", Toast.LENGTH_SHORT).show()
+
         success = true
     }
 
@@ -74,7 +73,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
                 var toDoList = ToDoList()
 
                 toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
-                toDoList.done = cursor.isNull(cursor.getColumnIndex(colDone))
+                toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
                 toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
                 list.add(toDoList)
             }while (cursor.moveToNext())
@@ -96,7 +95,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         var toDoList = ToDoList()
 
         toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
-        toDoList.done = cursor.isNull(cursor.getColumnIndex(colDone))
+        toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
         toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
 
 
@@ -105,43 +104,22 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         return toDoList
     }
 
-//    TO CHUJSTWO MI NIE DZIAŁA DO POPRAWY
-    fun updateDone(id: Int, done: Boolean){
-        println("przed update")
-        println(readOneObjectToDO(id).done)
+    fun updateDone(id: Int, done: Int){
 
         val values = ContentValues()
-        values.put(colToDo, "test test test")
-        values.put(colDone, true)
+        values.put(colDone, done)
         val db = this.writableDatabase
 
         val retVal =  db.update(dbTable, values, colId + " = " + id, null)
 
-        if (retVal >= 1) {
+        if (retVal >= 1)
             Log.v("Update done", " Record updated")
-        } else {
-            Log.v("Update done", " Not updated")
-        }
+        else
+            Toast.makeText(context, "Failed update todo", Toast.LENGTH_SHORT).show()
+
         db.close()
 
-
-        println("po update")
-        println(readOneObjectToDO(id).done)
-
-//        val db2 = this.writableDatabase
-//        val query = "UPDATE " +  dbTable +
-//                " SET " + colDone + " = " + done.toString() +
-//                " WHERE " + colId + " = " + id + ";"
-//        println(query)
-//        var coursor = db2.rawQuery(query, null)
-
-
-//        println("po update2")
-//        println(readOneObjectToDO(1).done)
-
-
     }
-
 
     fun updateToDo(id: Int, todo: String){
 
@@ -159,7 +137,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         db.close()
     }
 
-
     fun deleteToDO(id: Int){
         val db = this.writableDatabase
         val retVal = db.delete(dbTable, colId + " = " + id.toString(), null)
@@ -170,36 +147,5 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         }
         db.close()
     }
-
-    fun updateData() {
-        var cursor: Cursor? = null
-        val db = this.writableDatabase
-        val query = "Select * from " + dbTable
-
-        cursor = db.rawQuery(query, null)
-
-        if (cursor.moveToFirst()){
-            do {
-                var cv = ContentValues()
-                cv.put(colToDo, cursor.getString(cursor.getColumnIndex(colToDo))+1)
-                db.update(dbTable, cv, colId + "=?" + colDone + "=?", arrayOf(cursor.getString
-                (cursor.getColumnIndex(colId)), cursor.getString(cursor.getColumnIndex(colDone))))
-            }while (cursor.moveToNext())
-        }
-
-        cursor.close()
-        db.close()
-    }
-
-    fun update(values: ContentValues, selection: String, selectionargs: Array<String>): Int {
-        val db = this.writableDatabase
-        val count = db!!.update(dbTable, values, selection, selectionargs)
-        return count
-    }
-
-
-
-
-
 
 }

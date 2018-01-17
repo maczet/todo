@@ -8,4 +8,10 @@
     <string name="Edit">Edit</string>
     <string name="OK">OK</string>
     <string name="EditToDoElement">Edit TODO element</string>
+    <string-array name="priority_array">
+        <item>Normal</item>
+        <item>High</item>
+        <item>Low</item>
+    </string-array>
+
 </resources>

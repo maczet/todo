@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import kotlinx.android.synthetic.main.activity_to_do_element.*
 import kotlinx.android.synthetic.main.main_row.view.*
 
 /**
@@ -15,6 +17,11 @@ import kotlinx.android.synthetic.main.main_row.view.*
 class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
 
     private val mContext: Context
+
+    private fun Boolean.toInt() = if (this) 1 else 0
+    private fun toBoolean(int: Int): Boolean {
+        return int == 1
+    }
 
     var db = DataBaseHandler(context)
     var data = db.readData()
@@ -39,9 +46,14 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val numberString = (position + 1).toString() + "."
         holder?.view?.textViewNumber?.text = numberString
-        holder?.view?.textViewToDo?.text = data.get(position).toDo
+        holder?.view?.textViewToDo?.text = data[position].toDo
+        holder?.view?.checkBoxDone?.isChecked = toBoolean(data[position].done)
+        holder?.todo = data[position]
 
-        holder?.todo = data.get(position)
+        holder?.view?.checkBoxDone?.setOnClickListener {
+            db.updateDone(data[position].id, holder?.view?.checkBoxDone?.isChecked!!.toInt())
+
+        }
     }
 }
 

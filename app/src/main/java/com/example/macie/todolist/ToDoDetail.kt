@@ -10,6 +10,11 @@ class ToDoDetail : AppCompatActivity() {
 
     val DEFAULT_INT = -1
 
+    private fun Boolean.toInt() = if (this) 1 else 0
+    private fun toBoolean(int: Int): Boolean {
+        return int == 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_to_do_element)
@@ -21,13 +26,12 @@ class ToDoDetail : AppCompatActivity() {
         val db = DataBaseHandler(this)
         val data = db.readOneObjectToDO(ToDoId)
 
-        checkBoxToDoDetail.isChecked = data.done
+        checkBoxToDoDetail.isChecked = toBoolean(data.done)
         textViewTitleToDoDetail.text = data.toDo
 
         checkBoxToDoDetail.setOnClickListener {
-            db.updateDone(ToDoId, checkBoxToDoDetail.isChecked)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            db.updateDone(ToDoId, checkBoxToDoDetail.isChecked.toInt())
+//            updateContext(this, ToDoId)
         }
 
         buttonDelete.setOnClickListener {
@@ -47,7 +51,7 @@ class ToDoDetail : AppCompatActivity() {
     private fun updateContext(context: Context, ToDoId: Int){
         val db = DataBaseHandler(this)
         val data = db.readOneObjectToDO(ToDoId)
-        checkBoxToDoDetail.isChecked = data.done
+        checkBoxToDoDetail.isChecked = toBoolean(data.done)
     }
 
 }
