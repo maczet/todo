@@ -19,7 +19,9 @@ class AddToDoElement : AppCompatActivity() {
         var priority = "Normal"
 
 
-        spinnerPriority.adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, resources.getStringArray(R.array.priority_array))
+        spinnerPriority.adapter =
+                ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
+                        resources.getStringArray(R.array.priority_array))
         spinnerPriority.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 priority = spinnerPriority.selectedItem.toString()

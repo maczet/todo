@@ -10,10 +10,12 @@
     <TextView
         android:id="@+id/textViewTitleToDoDetail"
         android:layout_width="354dp"
-        android:layout_height="104dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="16dp"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerPriorityDetail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,9 +23,11 @@
         android:id="@+id/checkBoxToDoDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="23dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="124dp"
         android:text="@string/ToDoElementCheckbox"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerPriorityDetail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,6 +35,7 @@
         android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="@string/Edit"
         app:layout_constraintBaseline_toBaselineOf="@+id/buttonDelete"
         app:layout_constraintStart_toEndOf="@+id/checkBoxToDoDetail" />
@@ -39,11 +44,29 @@
         android:id="@+id/buttonDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="196dp"
         android:text="@string/Delete"
         android:textColor="@android:color/holo_red_dark"
         app:layout_constraintStart_toEndOf="@+id/buttonEdit"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerPriorityDetail"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="448dp"
+        android:layout_marginEnd="142dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxToDoDetail"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleToDoDetail" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="378dp" />
 
 </android.support.constraint.ConstraintLayout>

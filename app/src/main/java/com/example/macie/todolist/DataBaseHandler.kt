@@ -32,47 +32,22 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
 
     override fun onCreate(db: SQLiteDatabase?) {
 
-        val createTable = "CREATE TABLE IF NOT EXISTS " +
-                dbTable + " (" +
+        val createTable = "CREATE TABLE IF NOT EXISTS " + dbTable + " (" +
                 colId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 colToDo + " TEXT," +
-                colDone + " BOOLEAN," +
-                colPriority + "VARCHAR)"
+                colPriority + " TEXT," +
+                colDone + " BOOLEAN)"
 
         db?.execSQL(createTable)
-
     }
-
-    fun tableCheck(){
-        //                to check existing table
-
-        var cursor: Cursor? = null
-        val db = this.readableDatabase
-        var query = "SELECT sql FROM sqlite_master "
-//                "WHERE tbl_name = " + dbName + " AND type = " +
-//                dbTable
-
-        cursor = db.rawQuery(query, null)
-        println("================================")
-        if (cursor.moveToFirst()) {
-            do {
-                println(cursor.getColumnName(1).toString())
-            } while (cursor.moveToNext())
-        }
-        println("================================")
-        cursor.close()
-        db.close()
-    }
-
 
     fun insertData(toDoList: ToDoList) {
         val db = this.writableDatabase
         var cv = ContentValues()
 
         cv.put(colToDo, toDoList.toDo)
+        cv.put(colPriority, toDoList.priority)
         cv.put(colDone, toDoList.done)
-//        cv.put(colPriority, toDoList.priority)
-
         var result = db.insert(dbTable, null, cv)
         if (result == -1.toLong())
             Toast.makeText(context, "Failed add new todo", Toast.LENGTH_SHORT).show()
@@ -84,7 +59,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
     }
 
     fun readData(): MutableList<ToDoList>{
-        tableCheck()
         var list : MutableList<ToDoList> = ArrayList()
         var cursor: Cursor? = null
         val db = this.readableDatabase
@@ -103,8 +77,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
 
                 toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
                 toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
+                toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
                 toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
-//                toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
                 list.add(toDoList)
             }while (cursor.moveToNext())
         }
@@ -118,7 +92,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
     fun readOneObjectToDO(id: Int): ToDoList{
         var cursor: Cursor? = null
         val db = this.readableDatabase
-        val query = """Select * from $dbTable where $colId = $id"""
+        val query = "Select * from " + dbTable + " where " + colId + " = " + id
         cursor = db.rawQuery(query, null)
         cursor.moveToFirst()
 
@@ -126,8 +100,9 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
 
         toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
         toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
+        toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
         toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
-//        toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
+
 
         cursor.close()
         db.close()
@@ -148,6 +123,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
             Toast.makeText(context, "Failed update todo", Toast.LENGTH_SHORT).show()
 
         db.close()
+
     }
 
     fun updateToDo(id: Int, todo: String){
