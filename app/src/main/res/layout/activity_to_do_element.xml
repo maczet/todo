@@ -62,11 +62,5 @@
         app:layout_constraintStart_toEndOf="@+id/checkBoxToDoDetail"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitleToDoDetail" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="378dp" />
 
 </android.support.constraint.ConstraintLayout>

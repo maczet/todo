@@ -25,6 +25,7 @@ class AddToDoElement : AppCompatActivity() {
         spinnerPriority.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 priority = spinnerPriority.selectedItem.toString()
+
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
             }

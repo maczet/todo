@@ -109,6 +109,22 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         return toDoList
     }
 
+    fun updatePriority(id: Int, priority: String){
+
+        val values = ContentValues()
+        values.put(colPriority, priority)
+        val db = this.writableDatabase
+
+        val retVal =  db.update(dbTable, values, colId + " = " + id, null)
+
+        if (retVal >= 1)
+            Log.v("Update done", " Record updated")
+        else
+            Toast.makeText(context, "Failed update todo", Toast.LENGTH_SHORT).show()
+
+        db.close()
+    }
+
     fun updateDone(id: Int, done: Int){
 
         val values = ContentValues()
@@ -123,7 +139,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
             Toast.makeText(context, "Failed update todo", Toast.LENGTH_SHORT).show()
 
         db.close()
-
     }
 
     fun updateToDo(id: Int, todo: String){

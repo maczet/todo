@@ -8,11 +8,23 @@
     <string name="Edit">Edit</string>
     <string name="OK">OK</string>
     <string name="EditToDoElement">Edit TODO element</string>
-    <string name="priority">priority</string>
+    <string name="priorityInRow">priority</string>
+    <string name="TextView">TextView</string>
+    <string name="nr">nr</string>
     <string-array name="priority_array">
         <item>Normal</item>
         <item>High</item>
         <item>Low</item>
+    </string-array>
+    <string-array name="priority_high">
+        <item>High</item>
+        <item>Normal</item>
+        <item>Low</item>
+    </string-array>
+    <string-array name="priority_low">
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
     </string-array>
 
 </resources>

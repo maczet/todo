@@ -21,6 +21,7 @@ class ToDoDetail : AppCompatActivity() {
         return int == 1
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_to_do_element)
@@ -35,24 +36,20 @@ class ToDoDetail : AppCompatActivity() {
         checkBoxToDoDetail.isChecked = toBoolean(data.done)
         textViewTitleToDoDetail.text = data.toDo
 
+        var priority = checkPriority(data.priority)
 
-//        var priority = data.priority
-
-        spinnerPriorityDetail.prompt = "test"
         spinnerPriorityDetail.adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
-                        resources.getStringArray(R.array.priority_array))
+                priority)
         spinnerPriorityDetail.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                priority = spinnerPriorityDetail.selectedItem.toString()
+                db.updatePriority(ToDoId, spinnerPriorityDetail.selectedItem.toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
 
-
         checkBoxToDoDetail.setOnClickListener {
             db.updateDone(ToDoId, checkBoxToDoDetail.isChecked.toInt())
-//            updateContext(this, ToDoId)
         }
 
         buttonDelete.setOnClickListener {
@@ -69,10 +66,22 @@ class ToDoDetail : AppCompatActivity() {
         }
     }
 
-    private fun updateContext(context: Context, ToDoId: Int){
+    private fun updatePriority(ToDoId: Int){
         val db = DataBaseHandler(this)
-        val data = db.readOneObjectToDO(ToDoId)
-        checkBoxToDoDetail.isChecked = toBoolean(data.done)
+
+
+    }
+
+    private fun checkPriority(priority: String): Array<out String>? {
+        val normal = resources.getStringArray(R.array.priority_array)
+        val high = resources.getStringArray(R.array.priority_high)
+        val low = resources.getStringArray(R.array.priority_low)
+
+        return when (priority) {
+            normal[0] -> normal
+            high[0] -> high
+            else -> low
+        }
     }
 
 }
