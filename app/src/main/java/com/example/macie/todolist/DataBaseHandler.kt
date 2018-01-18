@@ -21,6 +21,7 @@ val dbTable = "ToDO"
 val colId = "id"
 val colToDo = "toDo"
 val colDone = "done"
+val colPriority = "priority"
 
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, null,1) {
@@ -34,6 +35,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         val createTable = "CREATE TABLE IF NOT EXISTS " + dbTable + " (" +
                 colId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 colToDo + " TEXT," +
+                colPriority + " TEXT," +
                 colDone + " BOOLEAN)"
 
         db?.execSQL(createTable)
@@ -44,6 +46,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         var cv = ContentValues()
 
         cv.put(colToDo, toDoList.toDo)
+        cv.put(colPriority, toDoList.priority)
         cv.put(colDone, toDoList.done)
         var result = db.insert(dbTable, null, cv)
         if (result == -1.toLong())
@@ -74,6 +77,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
 
                 toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
                 toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
+                toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
                 toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
                 list.add(toDoList)
             }while (cursor.moveToNext())
@@ -96,6 +100,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
 
         toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
         toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
+        toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
         toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
 
 

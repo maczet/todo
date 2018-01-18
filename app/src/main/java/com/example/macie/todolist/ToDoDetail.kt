@@ -4,6 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_add_to_do_element.*
+import kotlinx.android.synthetic.main.activity_add_to_do_element.view.*
 import kotlinx.android.synthetic.main.activity_to_do_element.*
 
 class ToDoDetail : AppCompatActivity() {
@@ -28,6 +34,21 @@ class ToDoDetail : AppCompatActivity() {
 
         checkBoxToDoDetail.isChecked = toBoolean(data.done)
         textViewTitleToDoDetail.text = data.toDo
+
+
+//        var priority = data.priority
+
+        spinnerPriorityDetail.prompt = "test"
+        spinnerPriorityDetail.adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
+                        resources.getStringArray(R.array.priority_array))
+        spinnerPriorityDetail.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+//                priority = spinnerPriorityDetail.selectedItem.toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+
 
         checkBoxToDoDetail.setOnClickListener {
             db.updateDone(ToDoId, checkBoxToDoDetail.isChecked.toInt())
