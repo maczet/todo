@@ -1,15 +1,12 @@
 package com.example.macie.todolist
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_add_to_do_element.*
-import kotlinx.android.synthetic.main.activity_add_to_do_element.view.*
+
 import kotlinx.android.synthetic.main.activity_to_do_element.*
 
 class ToDoDetail : AppCompatActivity() {
@@ -27,7 +24,7 @@ class ToDoDetail : AppCompatActivity() {
         setContentView(R.layout.activity_to_do_element)
 
         val ToDoId = intent.getIntExtra(CustomViewHolder.TODO_ID, DEFAULT_INT)
-        supportActionBar?.title = "TODO details nr: " + ToDoId
+        supportActionBar?.title = "TODO detail nr: " + ToDoId
 
 
         val db = DataBaseHandler(this)
@@ -38,8 +35,8 @@ class ToDoDetail : AppCompatActivity() {
 
         var priority = checkPriority(data.priority)
 
-        spinnerPriorityDetail.adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
-                priority)
+        spinnerPriorityDetail.adapter = ArrayAdapter(this,
+                R.layout.support_simple_spinner_dropdown_item, priority)
         spinnerPriorityDetail.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 db.updatePriority(ToDoId, spinnerPriorityDetail.selectedItem.toString())

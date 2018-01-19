@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.main_row.view.*
  * Created by macie on 14.01.2018.
  */
 
-class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
+class MainAdapterDone(context: Context): RecyclerView.Adapter<CustomViewHolderDone>() {
 
     private val mContext: Context
 
@@ -22,7 +22,7 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     var db = DataBaseHandler(context)
-    var data = db.readDataDone()
+    var data = db.readDataNotDone()
 
     init {
         mContext = context
@@ -34,14 +34,14 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
         return data.count()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolderDone {
         // how do we even create a view
         val layoutInflater = LayoutInflater.from(parent?.context)
         val cellForRow = layoutInflater.inflate(R.layout.main_row, parent, false)
-        return CustomViewHolder(cellForRow)
+        return CustomViewHolderDone(cellForRow)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: CustomViewHolderDone?, position: Int) {
         val numberString = (position + 1).toString() + "."
         holder?.view?.textViewNumber?.text = numberString
         holder?.view?.textViewToDo?.text = data[position].toDo
@@ -56,7 +56,8 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
     }
 }
 
-class CustomViewHolder(val view: View, var todo: ToDoList? = null): RecyclerView.ViewHolder(view) {
+class CustomViewHolderDone(val view: View, var todo: ToDoList? = null): RecyclerView.ViewHolder
+(view) {
 
     companion object {
         val TODO_ID = "ID"

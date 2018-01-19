@@ -16,13 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddToDoElement" />
+        <activity android:name=".AddToDoElement">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity"/>
+        </activity>
         <activity android:name=".ToDoDetail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".EditToDoElement"></activity>
+        <activity android:name=".EditToDoElement" />
     </application>
 
 </manifest>

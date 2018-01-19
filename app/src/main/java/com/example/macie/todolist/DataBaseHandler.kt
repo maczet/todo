@@ -58,7 +58,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         success = true
     }
 
-    fun readData(): MutableList<ToDoList>{
+    fun readDataDone(): MutableList<ToDoList>{
         var list : MutableList<ToDoList> = ArrayList()
         var cursor: Cursor? = null
         val db = this.readableDatabase
@@ -75,11 +75,52 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
             do {
                 var toDoList = ToDoList()
 
+                var done:Boolean
+
                 toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
                 toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
                 toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
                 toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
-                list.add(toDoList)
+
+                if (toDoList.done == 0) {
+                    list.add(toDoList)
+                }
+            }while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return list
+    }
+
+    fun readDataNotDone(): MutableList<ToDoList>{
+        var list : MutableList<ToDoList> = ArrayList()
+        var cursor: Cursor? = null
+        val db = this.readableDatabase
+        val query = "Select * from " + dbTable
+
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException) {
+            onCreate(db)
+            return ArrayList()
+        }
+
+        if (cursor.moveToFirst()){
+            do {
+                var toDoList = ToDoList()
+
+                var done:Boolean
+
+                toDoList.toDo = cursor.getString(cursor.getColumnIndex(colToDo))
+                toDoList.done = cursor.getInt(cursor.getColumnIndex(colDone))
+                toDoList.priority = cursor.getString(cursor.getColumnIndex(colPriority))
+                toDoList.id = cursor.getInt(cursor.getColumnIndex(colId))
+
+                if (toDoList.done == 1) {
+                    list.add(toDoList)
+                }
             }while (cursor.moveToNext())
         }
 

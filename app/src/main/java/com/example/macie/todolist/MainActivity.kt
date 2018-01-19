@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView_main.layoutManager = LinearLayoutManager(this)
         recyclerView_main.adapter = MainAdapter(this)
 
+        recyclerView_done.layoutManager = LinearLayoutManager(this)
+        recyclerView_done.adapter = MainAdapterDone(this)
+
         fab.setOnClickListener {
             val intent = Intent(this, AddToDoElement::class.java)
             startActivity(intent)
