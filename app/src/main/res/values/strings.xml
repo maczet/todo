@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TODO List</string>
     <string name="show_all">All TODO</string>
+    <string name="sort_menu">Sort list</string>
     <string name="add_element">ADD</string>
     <string name="ToDoTitle">Add new TODO element</string>
     <string name="ToDoElementCheckbox">Done</string>
@@ -26,5 +27,11 @@
         <item>Normal</item>
         <item>High</item>
     </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 
 </resources>

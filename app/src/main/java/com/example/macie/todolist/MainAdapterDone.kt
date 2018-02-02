@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.main_row.view.*
+import java.util.*
 
 /**
  * Created by macie on 14.01.2018.
@@ -53,7 +54,10 @@ class MainAdapterDone(context: Context): RecyclerView.Adapter<CustomViewHolderDo
             db.updateDone(data[position].id, holder?.view?.checkBoxDone?.isChecked!!.toInt())
 
         }
+
+
     }
+
 }
 
 class CustomViewHolderDone(val view: View, var todo: ToDoList? = null): RecyclerView.ViewHolder

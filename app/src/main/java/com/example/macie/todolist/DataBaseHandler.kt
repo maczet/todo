@@ -9,7 +9,9 @@ import android.widget.Toast
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.renderscript.Sampler
+import android.text.TextUtils
 import android.util.Log
+import java.text.SimpleDateFormat
 import java.util.concurrent.CountedCompleter
 
 /**
@@ -18,10 +20,15 @@ import java.util.concurrent.CountedCompleter
 
 val dbName = "ToDoListDB"
 val dbTable = "ToDO"
+val dbTableAttachments = "ToDOAtt"
 val colId = "id"
+val colTaskID = "taskid"
 val colToDo = "toDo"
 val colDone = "done"
 val colPriority = "priority"
+val colDateAdded = "dateadded"
+val colDateDone = "datedone"
+val colFilePath = "filepath"
 
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, null,1) {
@@ -36,10 +43,22 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
                 colId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 colToDo + " TEXT," +
                 colPriority + " TEXT," +
+                colDateAdded + " INTEGER," +
+                colDateDone + " INTEGER," +
                 colDone + " BOOLEAN)"
 
         db?.execSQL(createTable)
+
+        // attachments table
+        db?.execSQL("CREATE TABLE IF NOT EXISTS " + dbTableAttachments + " (" +
+                colId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                colTaskID + " INTEGER REFERENCES " + dbTable + " ( " + colId + " )," +
+                colDateAdded + " Integer," +
+                colFilePath + " TEXT)")
     }
+
+
+
 
     fun insertData(toDoList: ToDoList) {
         val db = this.writableDatabase
@@ -48,6 +67,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
         cv.put(colToDo, toDoList.toDo)
         cv.put(colPriority, toDoList.priority)
         cv.put(colDone, toDoList.done)
+
         var result = db.insert(dbTable, null, cv)
         if (result == -1.toLong())
             Toast.makeText(context, "Failed add new todo", Toast.LENGTH_SHORT).show()
@@ -207,6 +227,67 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, dbName, 
             Toast.makeText(context, "Record not deleted", Toast.LENGTH_SHORT).show()
         }
         db.close()
+    }
+
+    // Attachments db methods
+    fun insertAttachment(filepath: String, taskID: Int) {
+        val db = this.writableDatabase
+        var cv = ContentValues()
+
+        cv.put(colTaskID, taskID)
+        cv.put(colDateAdded, System.currentTimeMillis())
+        cv.put(colFilePath, filepath)
+
+        var result = db.insert(dbTableAttachments, null, cv)
+        if (result == -1.toLong())
+            Toast.makeText(context, "Failed add new attachment", Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(context, "Success add new attachment", Toast.LENGTH_SHORT).show()
+        db.close()
+        success = true;
+    }
+
+    fun readDataAttachments(taskID: Int): MutableList<Attachments>{
+        var list : MutableList<Attachments> = ArrayList()
+        var cursor: Cursor? = null
+        val db = this.readableDatabase
+        val query = "Select * from " + dbTableAttachments +
+                " where " + colTaskID + " = " + Integer.toString(taskID) + " order by " + colId
+
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException) {
+            onCreate(db)
+            return ArrayList()
+        }
+
+        if (cursor.moveToFirst()){
+            do {
+                var toDoList = Attachments(
+                        cursor.getInt(cursor.getColumnIndex(colId)),
+                        cursor.getInt(cursor.getColumnIndex(colTaskID)),
+                                cursor.getInt(cursor.getColumnIndex(colDateAdded)),
+                                cursor.getString(cursor.getColumnIndex(colFilePath))
+                )
+                list.add(toDoList)
+
+            }while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return list
+    }
+
+    fun deleteAttachments(list: MutableList<Int>): Int {
+        val db = this.readableDatabase
+
+        val retVal = db.delete(dbTableAttachments, colId + " in (" +
+                android.text.TextUtils.join(",", list) + ")", null)
+
+        db.close()
+        return retVal
     }
 
 }

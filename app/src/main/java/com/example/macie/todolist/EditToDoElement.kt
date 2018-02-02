@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_edit_to_do_element.*
-import kotlinx.android.synthetic.main.activity_to_do_element.*
 
 class EditToDoElement : AppCompatActivity() {
 

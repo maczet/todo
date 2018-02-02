@@ -7,4 +7,10 @@
         android:orderInCategory="100"
         android:title="@string/show_all"
         app:showAsAction="never" />
+    <!-- mbak: adding sort option to menu -->
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="150"
+        android:title="@string/sort_menu"
+        app:showAsAction="never" />
 </menu>

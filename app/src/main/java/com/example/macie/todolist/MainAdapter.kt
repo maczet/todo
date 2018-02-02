@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.main_row.view.*
+import java.util.*
 
 /**
  * Created by macie on 14.01.2018.
@@ -24,6 +25,8 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
     var db = DataBaseHandler(context)
     var data = db.readDataDone()
 
+
+
     init {
         mContext = context
     }
@@ -34,6 +37,34 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
         return data.count()
     }
 
+    fun sortByName(desc: Boolean = false) {
+        if (desc)
+            Collections.sort(data, { l1, l2 -> l2.toDo.compareTo(l1.toDo, true) })
+        else
+            Collections.sort(data, { l1, l2 -> l1.toDo.compareTo(l2.toDo, true) })
+    }
+
+//    fun sortByDateAdded(desc: Boolean = false) {
+//        if (desc)
+//            Collections.sort(data, { l1, l2 -> l1.dateAdded!!.compareTo(l2.dateAdded!!) })
+//        else
+//            Collections.sort(data, { l1, l2 -> l1.dateAdded!!.compareTo(l2.dateAdded!!) })
+//    }
+//
+//    fun sortByDateDone(desc: Boolean = false) {
+//        if (desc)
+//          Collections.sort(data, { l1, l2 -> l1.dateDone!!.compareTo(l2.dateDone!!) })
+//        else
+//            Collections.sort(data, { l1, l2 -> l1.dateDone!!.compareTo(l2.dateDone!!) })
+//    }
+
+    fun sortByPriority(desc: Boolean = false) {
+        if (desc)
+            Collections.sort(data, { l1, l2 -> l1.priority.compareTo(l2.priority, true) })
+        else
+            Collections.sort(data, { l1, l2 -> l2.priority.compareTo(l1.priority, true) })
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
         // how do we even create a view
         val layoutInflater = LayoutInflater.from(parent?.context)
@@ -42,6 +73,7 @@ class MainAdapter(context: Context): RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
+
         val numberString = (position + 1).toString() + "."
         holder?.view?.textViewNumber?.text = numberString
         holder?.view?.textViewToDo?.text = data[position].toDo

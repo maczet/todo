@@ -11,11 +11,11 @@
         android:id="@+id/textViewTitleToDoDetail"
         android:layout_width="354dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="224dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="16dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerPriorityDetail"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,6 +61,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checkBoxToDoDetail"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitleToDoDetail" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleToDoDetail">
+
+        <Button
+            android:id="@+id/attachmentAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add attachment"
+            app:layout_constraintBaseline_toBaselineOf="@+id/attachmentRemove"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/attachmentRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Attachment"
+            app:layout_constraintStart_toEndOf="@+id/attachmentAdd"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <GridLayout
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
+            android:layout_height="184dp"
+            android:layout_marginTop="8dp"
+            android:columnCount="3"
+            app:layout_constraintTop_toBottomOf="@+id/attachmentRemove"
+            tools:layout_editor_absoluteX="8dp">
+
+        </GridLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
